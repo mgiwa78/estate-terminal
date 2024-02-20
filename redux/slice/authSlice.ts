@@ -3,12 +3,12 @@ import User from "../../types/User";
 
 type AuthState = {
   role: "user" | null;
-  user: User | null;
+  user?: User;
   isLoggedIn: boolean;
 };
 const initialState: AuthState = {
   role: null,
-  user: null,
+  user: undefined,
   isLoggedIn: false,
 };
 
@@ -24,7 +24,7 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.role = null;
-      state.user = null;
+      state.user = undefined;
       state.isLoggedIn = false;
     },
   },

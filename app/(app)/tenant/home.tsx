@@ -1,11 +1,13 @@
 import { Text, View } from "@common/Themed";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import Invites from "../../components/tenant/Invite";
-import TenantMenu from "../../components/tenant/Menu";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import Invites from "../../../components/tenant/Invite";
+import TenantMenu from "../../../components/tenant/Menu";
 import { useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";
+import { useGetInvitesQuery } from "@toolkit/invitesApi";
+import { isLoaded, isLoading } from "expo-font";
 
 const HomeScreen = () => {
   const user = useAppSelector(selectUser);
@@ -27,18 +29,8 @@ const HomeScreen = () => {
         </View>
         <View style={styles.homeBody}>
           <View style={{ width: "100%", height: "100%" }}>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 20,
-                  paddingBottom: 30,
-                }}
-              >
-                <TenantMenu />
-                <Invites />
-              </View>
-            </ScrollView>
+            <TenantMenu />
+            <Invites />
           </View>
         </View>
       </View>
@@ -49,7 +41,6 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     fontFamily: "ManropeSemiBold",
-    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#436BAB",
@@ -57,7 +48,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   scrollViewContent: {
-    flexGrow: 1,
     width: "100%",
   },
   homeBody: {

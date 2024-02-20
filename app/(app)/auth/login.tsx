@@ -27,13 +27,6 @@ const LoginScreen = () => {
 
   console.log("login user data: ", user);
 
-  useEffect(() => {
-    if (user) {
-      router.replace("/tenant/home");
-    }
-    setIsLoading(false);
-  }, []);
-
   const dispatch = useAppDispatch();
   // const onCreateUserClick = async (e) => {
   //   try {
@@ -48,7 +41,11 @@ const LoginScreen = () => {
   //     setIsLoading(false);
   //   }
   // };w
-
+  // useEffect(() => {
+  //   if (user) {
+  //     router.replace("/tenant/home");
+  //   }
+  // }, [user]);
   const handleLogin = async () => {
     setIsLoading(true);
     setServerErr("");

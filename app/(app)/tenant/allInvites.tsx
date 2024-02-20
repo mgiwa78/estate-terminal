@@ -1,10 +1,14 @@
 import { Text, View } from "@common/Themed";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import Invites from "../../components/tenant/Invite";
-import TenantMenu from "../../components/tenant/Menu";
-import Header from "../../components/Header";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import Invites from "../../../components/tenant/Invite";
+import TenantMenu from "../../../components/tenant/Menu";
+import Header from "../../../components/Header";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "@redux/selectors/auth";
+import { useGetInvitesQuery } from "@toolkit/invitesApi";
 
 const AllInvites = () => {
   return (

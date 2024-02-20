@@ -21,7 +21,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "/",
+  initialRouteName: "(app)/index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -32,7 +32,6 @@ export default function RootLayout() {
     ...Fonts,
     ...FontAwesome.font,
   });
-  console.log("user");
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -62,11 +61,8 @@ function RootLayoutNav() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="(auth)/index"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(app)" options={{ headerShown: false }} />
+            {/* <Stack.Screen name="auth" options={{ headerShown: false }} /> */}
           </Stack>
         </ThemeProvider>
       </PersistGate>

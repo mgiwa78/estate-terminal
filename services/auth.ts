@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 
 export const tenantLogin: any = async (userData: User) => {
   try {
-    const res = await axios.post(`${API_URL}/users/tenant-login`, userData, {
+    const res = await axios.post(`${API_URL}users/tenant-login`, userData, {
       headers: {
         "Content-Type": "application/json",
       },

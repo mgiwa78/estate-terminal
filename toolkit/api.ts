@@ -6,18 +6,9 @@ import { REHYDRATE } from "redux-persist";
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-
-  prepareHeaders: (headers, { getState }) => {
-    // By default, if we have a token in the store, let's use that for authenticated requests
-    // const token = (getState() as RootState)?.auth.token;
-    // if (token) {
-    //   headers.set("authentication", `Bearer ${token}`);
-    // }
-    return headers;
-  },
 });
 
-const baseQueryWithRetry = retry(baseQuery, { maxRetries: 6 });
+const baseQueryWithRetry = retry(baseQuery, { maxRetries: 2 });
 
 /**
  * Create a base API to inject endpoints into elsewhere.
@@ -43,7 +34,7 @@ const api = createApi({
    * for any tags that would be provided by injected endpoints
    */
 
-  tagTypes: ["Invite"],
+  tagTypes: ["Invites"],
   /**
    * This api has endpoints injected in adjacent files,
    * which is why no endpoints are shown below.

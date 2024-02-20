@@ -17,6 +17,8 @@ const Header = ({ pageTitle, backTo, textColor }: Props) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            paddingRight: 10,
+            paddingVertical: 0,
           }}
           onPress={() => router.replace(backTo)}
         >
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "ManropeSemiBold",
     color: "#000",
+    marginBottom: 5,
   },
   container: {
     justifyContent: "flex-start",
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     flexDirection: "row",
     width: "100%",
-    height: 80,
+    height: 100,
     paddingHorizontal: 18,
     marginBottom: 10,
     gap: 5,
@@ -52,7 +55,6 @@ const styles = StyleSheet.create({
   headerBox: {
     justifyContent: "flex-start",
     alignItems: "center",
-
     flexDirection: "row",
     width: "100%",
     gap: 12,
