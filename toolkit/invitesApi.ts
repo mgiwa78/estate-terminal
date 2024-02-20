@@ -12,7 +12,6 @@ export const invitesApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-
       transformResponse: (response: { data: Invite }, meta, arg) =>
         response.data,
       invalidatesTags: ["Invites"],
@@ -21,7 +20,10 @@ export const invitesApi = api.injectEndpoints({
       query: (id) => ({ url: `invites/mine/${id}` }),
       transformResponse: (response: { data: Invite[] }, meta, arg) =>
         response.data,
-      providesTags: (_Invite, _err, id) => [{ type: "Invites", id }],
+      providesTags: (_Invite = [], _err) => [
+        ..._Invite.map(({ id }) => ({ type: "Invites", id } as const)),
+        { type: "Invites" as const, id: "LIST" },
+      ],
     }),
   }),
   overrideExisting: true,

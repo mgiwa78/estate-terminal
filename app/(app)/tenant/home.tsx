@@ -8,6 +8,7 @@ import { useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";
 import { useGetInvitesQuery } from "@toolkit/invitesApi";
 import { isLoaded, isLoading } from "expo-font";
+import { scaleFont } from "../../../utils/scaleFont";
 
 const HomeScreen = () => {
   const user = useAppSelector(selectUser);
@@ -27,7 +28,7 @@ const HomeScreen = () => {
             {user ? `Hi , ${user?.lastname + " " + user?.firstname}` : ""}
           </Text>
         </View>
-        <View style={styles.homeBody}>
+        <View style={styles.homeBody} darkColor="#000">
           <View style={{ width: "100%", height: "100%" }}>
             <TenantMenu />
             <Invites />
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     display: "flex",
-    backgroundColor: "#FFF",
+
     width: "100%",
     height: "100%",
     gap: 20,
@@ -64,13 +65,13 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   header: {
-    fontSize: 20,
+    fontSize: scaleFont(20),
     color: "#000",
     fontWeight: "bold",
     marginBottom: 20,
   },
   title: {
-    fontSize: 18,
+    fontSize: scaleFont(18),
     color: "#000",
     fontWeight: "500",
   },
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   },
   userMenuName: {
     fontFamily: "ManropeSemiBold",
-    fontSize: 20,
+    fontSize: scaleFont(20),
     color: "#fff",
   },
 });

@@ -24,18 +24,9 @@ const AllInvites = () => {
           pageTitle="All Invites"
           backTo="/tenant/home"
         />
-        <View style={styles.body}>
+        <View style={styles.body} darkColor="#000">
           <View style={{ width: "100%", height: "100%" }}>
-            <ScrollView contentContainerStyle={styles.scrollViewContent}>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 20,
-                }}
-              >
-                <Invites />
-              </View>
-            </ScrollView>
+            <Invites />
           </View>
         </View>
       </View>
@@ -60,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     display: "flex",
-    backgroundColor: "#FFF",
+
     width: "100%",
     height: "100%",
     gap: 20,

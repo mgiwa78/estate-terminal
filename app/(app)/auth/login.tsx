@@ -13,6 +13,7 @@ import { Text, View } from "@common/Themed";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";
 import { loginSuccess } from "@redux/slice/authSlice";
+import { scaleFont } from "../../../utils/scaleFont";
 // import { loginSuccess } from "@/redux/slice/authSlice";
 
 const LoginScreen = () => {
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   header: {
-    fontSize: 20,
+    fontSize: scaleFont(20),
     fontFamily: "ManropeSemiBold",
     color: "#000",
 
@@ -177,11 +178,15 @@ const styles = StyleSheet.create({
     borderColor: "#E2E8F0",
     borderWidth: 1,
     marginBottom: 20,
-    fontSize: 16,
+    fontSize: scaleFont(16),
     paddingHorizontal: 10,
     borderRadius: 8,
   },
-  authLink: { fontSize: 16, fontFamily: "ManropeSemiBold", color: "#5A7AAE" },
+  authLink: {
+    fontSize: scaleFont(16),
+    fontFamily: "ManropeSemiBold",
+    color: "#5A7AAE",
+  },
   btn: {
     fontFamily: "ManropeRegular",
     marginTop: 30,
@@ -196,7 +201,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F5F9",
   },
   btnText: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontFamily: "ManropeSemiBold",
     color: "#CBD5E1",
   },

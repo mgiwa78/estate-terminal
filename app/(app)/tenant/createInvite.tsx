@@ -18,6 +18,7 @@ import { useAddInviteMutation } from "@toolkit/invitesApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@redux/selectors/auth";
 import { isLoading } from "expo-font";
+import { scaleFont } from "../../../utils/scaleFont";
 
 const CreateInvite = () => {
   const [codeType, setCodeType] = useState<"one-time" | "recurring" | "">(""); // Default invite type
@@ -59,7 +60,8 @@ const CreateInvite = () => {
   };
   const [createInvite, { isLoading: isCreating, isSuccess, error, data }] =
     useAddInviteMutation();
-  if (data) {
+  if (isSuccess) {
+    console.log(data);
     router.push("/tenant/allInvites");
   }
   if (error) {
@@ -79,7 +81,7 @@ const CreateInvite = () => {
           pageTitle="Create Invite"
           backTo="/tenant/home"
         />
-        <View style={styles.body}>
+        <View style={styles.body} darkColor="#000">
           <View style={styles.top}>
             <Text style={styles.inputLabel}>
               Confirm details and create invite
@@ -206,7 +208,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     display: "flex",
-    backgroundColor: "#FFF",
     width: "100%",
     height: "100%",
     gap: 20,
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     borderColor: "#CBCBCB",
     borderWidth: 1,
     height: 44,
-    fontSize: 14,
+    fontSize: scaleFont(14),
     display: "flex",
     justifyContent: "center",
     fontFamily: "ManropeMedium",
@@ -238,13 +239,13 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "#CBCBCB",
     borderWidth: 1,
-    fontSize: 14,
+    fontSize: scaleFont(14),
     fontFamily: "ManropeMedium",
     borderRadius: 15,
   },
   inputLabel: {
     fontFamily: "ManropeSemiBold",
-    fontSize: 12,
+    fontSize: scaleFont(12),
     width: "100%",
     color: "#989898",
   },
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: "ManropeMedium",
-    fontSize: 15,
+    fontSize: scaleFont(15),
     color: "#fff",
   },
 });

@@ -1,6 +1,7 @@
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Pressable, Image } from "react-native";
+import { scaleFont } from "../utils/scaleFont";
 
 type Props = {
   pageTitle: string;
@@ -35,7 +36,7 @@ const Header = ({ pageTitle, backTo, textColor }: Props) => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: scaleFont(20),
     fontFamily: "ManropeSemiBold",
     color: "#000",
     marginBottom: 5,

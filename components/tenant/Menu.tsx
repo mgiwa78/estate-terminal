@@ -1,6 +1,7 @@
+import { Text, View } from "@common/Themed";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
-import { View, StyleSheet, Text, Pressable, Image } from "react-native";
+import { StyleSheet, Pressable, Image } from "react-native";
 
 const TenantMenu = () => {
   return (
@@ -8,16 +9,18 @@ const TenantMenu = () => {
       <Text style={styles.title}> Menu </Text>
 
       <View style={styles.menuBody}>
-        <Pressable
+        <View
+          lightColor={"#fff"}
+          darkColor={"#fff"}
           style={styles.menuItem}
-          onPress={() => router.replace("/tenant/createInvite")}
+          onTouchEnd={() => router.replace("/tenant/createInvite")}
         >
           <Image
             style={styles.menuIcon}
             source={require("../../assets/images/Group.png")}
           />
           <Text style={styles.menuTitle}>Create invite</Text>
-        </Pressable>
+        </View>
         <Pressable
           onPress={() => router.replace("/tenant/allInvites")}
           style={styles.menuItem}
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: "ManropeSemiBold",
-    color: "#000",
     fontWeight: "600",
   },
   menuItem: {

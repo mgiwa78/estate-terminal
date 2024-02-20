@@ -6,6 +6,7 @@ import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { useGetInvitesQuery } from "@toolkit/invitesApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@redux/selectors/auth";
+import { scaleFont } from "../../utils/scaleFont";
 
 const Invites = () => {
   const user = useSelector(selectUser);
@@ -25,43 +26,33 @@ const Invites = () => {
 
     return formattedDate;
   };
+  if (error) {
+    console.log(error);
+  }
   return (
     <>
       <View style={styles.container}>
         <Text style={styles.title}> Active Invites </Text>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.body}>
-            {!isLoading && data ? (
-              data?.map((invite) => (
-                <View style={styles.inviteContainer}>
-                  <View style={styles.inviteTop}>
-                    <Text style={styles.inviteTopTitle}>{invite.guest}</Text>
-                    <Text style={styles.inviteTopSub}>{invite?.code}</Text>
-                  </View>
-                  <View style={styles.inviteBody}>
-                    <View style={styles.inviteDescription}>
-                      <Text style={styles.inviteDescriptionKey}>
-                        Code Type{" "}
-                      </Text>
-                      <Text style={styles.inviteDescriptionValue}>
-                        {invite?.codeType === "onetime" && "One Time"}
-                        {invite?.codeType === "recurring" && "Recurring"}
-                      </Text>
+            {data
+              ? data?.map((invite) => (
+                  <View colorName="tint" style={styles.inviteContainer}>
+                    <View style={styles.inviteTop}>
+                      <Text style={styles.inviteTopTitle}>{invite.guest}</Text>
+                      <Text style={styles.inviteTopSub}>{invite?.code}</Text>
                     </View>
-                    {invite?.codeType === "onetime" && (
+                    <View style={styles.inviteBody}>
                       <View style={styles.inviteDescription}>
                         <Text style={styles.inviteDescriptionKey}>
-                          Date Expected
+                          Code Type{" "}
                         </Text>
                         <Text style={styles.inviteDescriptionValue}>
-                          {invite.dateExpected
-                            ? formateDate(invite.dateExpected)
-                            : "-----"}
+                          {invite?.codeType === "onetime" && "One Time"}
+                          {invite?.codeType === "recurring" && "Recurring"}
                         </Text>
                       </View>
-                    )}
-                    {invite?.codeType === "recurring" && (
-                      <>
+                      {invite?.codeType === "onetime" && (
                         <View style={styles.inviteDescription}>
                           <Text style={styles.inviteDescriptionKey}>
                             Date Expected
@@ -70,30 +61,43 @@ const Invites = () => {
                             {invite.dateExpected
                               ? formateDate(invite.dateExpected)
                               : "-----"}
-                            -
-                            {invite.validUntil
-                              ? formateDate(invite.validUntil)
-                              : "-----"}
                           </Text>
                         </View>
-                        <View style={styles.inviteDescription}>
-                          <Text style={styles.inviteDescriptionKey}>
-                            Valid Untill
-                          </Text>
-                          <Text style={styles.inviteDescriptionValue}>
-                            {invite.validUntil
-                              ? formateDate(invite.validUntil)
-                              : "-----"}
-                          </Text>
-                        </View>
-                      </>
-                    )}
+                      )}
+                      {invite?.codeType === "recurring" && (
+                        <>
+                          <View style={styles.inviteDescription}>
+                            <Text style={styles.inviteDescriptionKey}>
+                              Date Expected
+                            </Text>
+                            <Text style={styles.inviteDescriptionValue}>
+                              {invite.dateExpected
+                                ? formateDate(invite.dateExpected)
+                                : "-----"}
+                              -
+                              {invite.validUntil
+                                ? formateDate(invite.validUntil)
+                                : "-----"}
+                            </Text>
+                          </View>
+                          <View style={styles.inviteDescription}>
+                            <Text style={styles.inviteDescriptionKey}>
+                              Valid Untill
+                            </Text>
+                            <Text style={styles.inviteDescriptionValue}>
+                              {invite.validUntil
+                                ? formateDate(invite.validUntil)
+                                : "-----"}
+                            </Text>
+                          </View>
+                        </>
+                      )}
+                    </View>
                   </View>
-                </View>
-              ))
-            ) : (
-              <ActivityIndicator />
-            )}
+                ))
+              : ""}
+
+            {isLoading && <ActivityIndicator size={"large"} />}
           </View>
         </ScrollView>
 
@@ -158,9 +162,8 @@ const Invites = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontFamily: "ManropeSemiBold",
-    color: "#000",
     textAlign: "left",
   },
   invitesTab: {
@@ -178,10 +181,12 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   body: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     width: "100%",
-    gap: 24,
+    height: "100%",
+    gap: 16,
+    paddingHorizontal: 7,
     marginBottom: 280,
   },
   inviteContainer: {
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
     fontFamily: "ManropeBold",
     justifyContent: "center",
     gap: 6,
-    backgroundColor: "#fff",
+
     alignItems: "flex-start",
     borderRadius: 15,
     paddingVertical: 10,
@@ -209,12 +214,12 @@ const styles = StyleSheet.create({
   },
   inviteTopTitle: {
     textTransform: "capitalize",
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontFamily: "ManropeSemiBold",
     color: "#000",
   },
   inviteTopSub: {
-    fontSize: 12,
+    fontSize: scaleFont(12),
     fontFamily: "ManropeSemiBold",
     color: "#979797",
   },
@@ -237,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     color: "#979797",
-    fontSize: 12,
+    fontSize: scaleFont(12),
     fontFamily: "ManropeMedium",
   },
   inviteTop: {
