@@ -32,8 +32,9 @@ const Invites = () => {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.body}>
             {!isLoading && data ? (
-              data?.map((invite) => (
-                <View style={styles.inviteContainer}>
+              data?.map((invite,index) => (
+                index < 3 && (
+                  <View style={styles.inviteContainer}>
                   <View style={styles.inviteTop}>
                     <Text style={styles.inviteTopTitle}>{invite.guest}</Text>
                     <Text style={styles.inviteTopSub}>{invite?.code}</Text>
@@ -68,15 +69,15 @@ const Invites = () => {
                           </Text>
                           <Text style={styles.inviteDescriptionValue}>
                             {invite.dateExpected
-                              ? formateDate(invite.dateExpected)
+                              ? formateDate(invite.dateExpected) 
                               : "-----"}
-                            -
+                            {/* -
                             {invite.validUntil
                               ? formateDate(invite.validUntil)
-                              : "-----"}
+                              : "-----"} */}
                           </Text>
                         </View>
-                        <View style={styles.inviteDescription}>
+                        <View style={[styles.inviteDescription, {marginBottom: '5%'}]}>
                           <Text style={styles.inviteDescriptionKey}>
                             Valid Untill
                           </Text>
@@ -90,6 +91,8 @@ const Invites = () => {
                     )}
                   </View>
                 </View>
+                )
+
               ))
             ) : (
               <ActivityIndicator />
@@ -235,6 +238,7 @@ const styles = StyleSheet.create({
   inviteDescriptionValue: {
     justifyContent: "flex-start",
     alignItems: "center",
+    marginTop:'2%',
     display: "flex",
     color: "#979797",
     fontSize: 12,
