@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
   inviteDescriptionValue: {
     justifyContent: "flex-start",
     alignItems: "center",
+    marginTop: "2%",
     display: "flex",
     color: "#979797",
     fontSize: scaleFont(12),
