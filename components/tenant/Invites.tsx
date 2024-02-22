@@ -43,7 +43,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
             {!limit &&
               data &&
               (data?.filter((invite) => {
-                console.log(invite);
                 if (filter === "all") {
                   return true;
                 }
@@ -56,7 +55,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
               }).length > 0 ? (
                 data
                   ?.filter((invite) => {
-                    console.log(invite);
                     if (filter === "all") {
                       return true;
                     }
