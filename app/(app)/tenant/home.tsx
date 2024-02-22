@@ -2,7 +2,7 @@ import { Text, View } from "@common/Themed";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
-import Invites from "../../../components/tenant/Invite";
+import Invites from "../../../components/tenant/Invites";
 import TenantMenu from "../../../components/tenant/Menu";
 import { useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";
@@ -29,10 +29,8 @@ const HomeScreen = () => {
           </Text>
         </View>
         <View style={styles.homeBody} darkColor="#000">
-          <View style={{ width: "100%", height: "100%" }}>
-            <TenantMenu />
-            <Invites />
-          </View>
+          <TenantMenu />
+          <Invites limit={2} filter="all" />
         </View>
       </View>
     </>

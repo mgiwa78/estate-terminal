@@ -1,4 +1,4 @@
-import { Text, View } from "@common/Themed";
+import { Text, View, useThemeColor } from "@common/Themed";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -9,7 +9,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import Invites from "../../../components/tenant/Invite";
+import Invites from "../../../components/tenant/Invites";
 import TenantMenu from "../../../components/tenant/Menu";
 import Header from "../../../components/Header";
 import { Picker } from "@react-native-picker/picker";
@@ -91,6 +91,9 @@ const CreateInvite = () => {
 
               <View style={styles.picker}>
                 <Picker
+                  itemStyle={{
+                    color: useThemeColor({ light: "#000", dark: "#fff" }),
+                  }}
                   selectedValue={codeType}
                   onValueChange={(itemValue) => setCodeType(itemValue)}
                 >
@@ -235,9 +238,10 @@ const styles = StyleSheet.create({
   },
   picker: {
     marginTop: 8,
-    height: 57,
+    height: "auto",
     width: "100%",
     borderColor: "#CBCBCB",
+
     borderWidth: 1,
     fontSize: scaleFont(14),
     fontFamily: "ManropeMedium",
