@@ -57,6 +57,7 @@ const Invite = ({ invite }: PropType) => {
 const styles = StyleSheet.create({
   inviteContainer: {
     height: 110,
+    marginBottom: 15,
     maxWidth: 400,
     fontFamily: "ManropeBold",
     justifyContent: "center",

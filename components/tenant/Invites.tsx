@@ -1,11 +1,17 @@
 import { Text, View } from "@common/Themed";
 import React, { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { useGetInvitesQuery } from "@toolkit/invitesApi";
 import { useSelector } from "react-redux";
 import { selectUser } from "@redux/selectors/auth";
 import { scaleFont } from "../../utils/scaleFont";
 import Invite from "./Invite";
+import { RefreshControl } from "react-native-gesture-handler";
 // import {Invite as InviteType} from "./Invite";
 
 type PropInvite = {
@@ -16,7 +22,9 @@ type PropInvite = {
 const Invites = ({ filter = "all", limit }: PropInvite) => {
   const user = useSelector(selectUser);
 
-  const { data, error, isLoading } = useGetInvitesQuery(user?._id || "0");
+  const { data, error, isLoading, isFetching, refetch } = useGetInvitesQuery(
+    user?._id || "0"
+  );
   const [filtered, setFiltered] = useState();
 
   if (error) {
@@ -27,16 +35,21 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
       <View style={styles.container} lightColor="#f2f2f2">
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.body} lightColor="#f2f2f2">
-            {limit &&
-              data &&
-              data
-                .slice(0, 3)
-                .sort((a, b) => {
+            {limit && (
+              <FlatList
+                contentContainerStyle={styles.scrollViewContent}
+                data={data?.slice(0, limit).sort((a, b) => {
                   const dateA = new Date(a.created_at);
                   const dateB = new Date(b.created_at);
                   return dateA.getTime() - dateB.getTime();
-                })
-                .map((invite) => <Invite key={invite._id} invite={invite} />)}
+                })}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => <Invite invite={item} />}
+                refreshControl={
+                  <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+                }
+              />
+            )}
 
             {!limit &&
               data &&
@@ -51,8 +64,8 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                   return !invite.status;
                 }
               }).length > 0 ? (
-                data
-                  ?.filter((invite) => {
+                <FlatList
+                  data={data?.filter((invite) => {
                     if (filter === "all") {
                       return true;
                     }
@@ -62,17 +75,22 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                     if (filter === "pending") {
                       return !invite.status;
                     }
-                  })
-                  .map((invite) => <Invite key={invite._id} invite={invite} />)
+                  })}
+                  keyExtractor={(item) => item._id}
+                  renderItem={({ item }) => <Invite invite={item} />}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={isFetching}
+                      onRefresh={refetch}
+                    />
+                  }
+                />
               ) : (
                 <View
-                  lightColor="#f2f2f2"
                   style={{
-                    width: "100%",
-                    height: "100%",
+                    flex: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    display: "flex",
                   }}
                 >
                   <Text style={{ fontFamily: "ManropeRegular", color: "#000" }}>
@@ -84,61 +102,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
             {isLoading && <ActivityIndicator size={"large"} />}
           </View>
         </ScrollView>
-
-        {/* <View style={styles.inviteContainer}>
-          <View style={styles.inviteTop}>
-            <Text style={styles.inviteTopTitle}>Plumber Idris</Text>
-            <Text style={styles.inviteTopSub}>30/10/2024</Text>
-          </View>
-          <View style={styles.inviteBody}>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Purpose </Text>
-              <Text style={styles.inviteDescriptionValue}> House service</Text>
-            </View>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Duration </Text>
-              <Text style={styles.inviteDescriptionValue}>
-                21/10/2024 - 30/10/2024
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.inviteContainer}>
-          <View style={styles.inviteTop}>
-            <Text style={styles.inviteTopTitle}>Plumber Idris</Text>
-            <Text style={styles.inviteTopSub}>30/10/2024</Text>
-          </View>
-          <View style={styles.inviteBody}>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Purpose </Text>
-              <Text style={styles.inviteDescriptionValue}> House service</Text>
-            </View>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Duration </Text>
-              <Text style={styles.inviteDescriptionValue}>
-                21/10/2024 - 30/10/2024
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.inviteContainer}>
-          <View style={styles.inviteTop}>
-            <Text style={styles.inviteTopTitle}>Plumber Idris</Text>
-            <Text style={styles.inviteTopSub}>30/10/2024</Text>
-          </View>
-          <View style={styles.inviteBody}>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Purpose </Text>
-              <Text style={styles.inviteDescriptionValue}> House service</Text>
-            </View>
-            <View style={styles.inviteDescription}>
-              <Text style={styles.inviteDescriptionKey}> Duration </Text>
-              <Text style={styles.inviteDescriptionValue}>
-                21/10/2024 - 30/10/2024
-              </Text>
-            </View>
-          </View>
-        </View> */}
       </View>
     </>
   );
@@ -167,9 +130,9 @@ const styles = StyleSheet.create({
   body: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    gap: 14,
     width: "100%",
     height: "100%",
-    gap: 14,
     paddingTop: 2,
     paddingHorizontal: 2,
     marginBottom: 280,

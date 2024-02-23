@@ -22,6 +22,7 @@ import { selectUser } from "@redux/selectors/auth";
 import { BaseProps } from "./types/BaseProps";
 import TenantHomeScreen from "./pages/tenant/home";
 import TenantStackNavigator from "./pages/tenant/tenant-stack";
+import SecurityStackNavigator from "./pages/security/security-stack";
 
 export default function RootLayout() {
   const RootStack = createStackNavigator();
@@ -66,11 +67,18 @@ export default function RootLayout() {
               component={LoginScreen}
             />
           )}
-          {user && (
+          {/* {user && (
             <RootStack.Screen
               name="TenantStackNavigator"
               options={{ title: "Tenant Home", headerShown: false }}
               component={TenantStackNavigator}
+            />
+          )} */}
+          {user && (
+            <RootStack.Screen
+              name="SecurityStackNavigator"
+              options={{ title: "Security Home", headerShown: false }}
+              component={SecurityStackNavigator}
             />
           )}
         </RootStack.Navigator>
