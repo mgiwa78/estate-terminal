@@ -19,7 +19,7 @@ const TenantHomeScreen = () => {
           <View style={styles.userImg}></View>
 
           <Text style={styles.userMenuName}>
-            {user ? `Hi , ${user?.lastname + " " + user?.firstname}` : ""}
+            {user ? `Hi , ${user?.firstname}` : ""}
           </Text>
         </View>
         <View style={styles.homeBody} darkColor="#000" lightColor="#f2f2f2">

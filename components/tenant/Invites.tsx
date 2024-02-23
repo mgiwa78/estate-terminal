@@ -22,7 +22,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
   if (error) {
     console.log(error);
   }
-  console.log(data?.length);
   return (
     <>
       <View style={styles.container} lightColor="#f2f2f2">
@@ -42,7 +41,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
             {!limit &&
               data &&
               (data?.filter((invite) => {
-                console.log(invite);
                 if (filter === "all") {
                   return true;
                 }
@@ -55,7 +53,6 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
               }).length > 0 ? (
                 data
                   ?.filter((invite) => {
-                    console.log(invite);
                     if (filter === "all") {
                       return true;
                     }
@@ -66,7 +63,7 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                       return invite.status;
                     }
                   })
-                  .map((invite) => <Invite invite={invite} />)
+                  .map((invite) => <Invite key={invite._id} invite={invite} />)
               ) : (
                 <View
                   lightColor="#f2f2f2"

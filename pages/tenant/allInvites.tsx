@@ -24,7 +24,7 @@ const AllInvites = () => {
         <View style={styles.body} darkColor="#000" lightColor="#f2f2f2">
           <View style={{ width: "100%", height: "100%" }} lightColor="#f2f2f2">
             <View style={styles.invitesTab} lightColor="#f2f2f2">
-              {["all", "pending", "cleared"].map((tab: any) => (
+              {["all", "pending", "cleared"].map((tab: any, i) => (
                 <View
                   lightColor="#f2f2f2"
                   style={[
@@ -36,7 +36,7 @@ const AllInvites = () => {
                         }
                       : {},
                   ]}
-                  key={tab}
+                  key={tab + i}
                   onTouchEnd={() => setfilter(tab)}
                 >
                   <Text

@@ -82,7 +82,7 @@ const CreateInvite = ({ navigation }: BaseProps) => {
               Confirm details and create invite
             </Text>
             <View style={styles.inputBox} lightColor="#f2f2f2">
-              <Text style={styles.inputLabel}>Type</Text>
+              <Text style={styles.inputLabel}>Code Type</Text>
 
               <View style={styles.picker}>
                 <Picker
@@ -102,12 +102,12 @@ const CreateInvite = ({ navigation }: BaseProps) => {
               </View>
             </View>
             <View style={styles.inputBox} lightColor="#f2f2f2">
-              <Text style={styles.inputLabel}>Guest name</Text>
+              <Text style={styles.inputLabel}>Name of Guest</Text>
               <TextInput
                 style={styles.input}
                 value={guestName}
                 onChangeText={setGuestName}
-                placeholder="Guest Name"
+                placeholder="Name of Guest"
               />
             </View>
             <View style={styles.inputBox} lightColor="#f2f2f2">
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   picker: {
-    marginTop: 8,
+    marginTop: 2,
     height: "auto",
     width: "100%",
     borderColor: "#CBCBCB",
