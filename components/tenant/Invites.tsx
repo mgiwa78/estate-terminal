@@ -45,10 +45,10 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                   return true;
                 }
                 if (filter === "cleared") {
-                  return !invite.status;
+                  return invite.status;
                 }
                 if (filter === "pending") {
-                  return invite.status;
+                  return !invite.status;
                 }
               }).length > 0 ? (
                 data
@@ -57,10 +57,10 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                       return true;
                     }
                     if (filter === "cleared") {
-                      return !invite.status;
+                      return invite.status;
                     }
                     if (filter === "pending") {
-                      return invite.status;
+                      return !invite.status;
                     }
                   })
                   .map((invite) => <Invite key={invite._id} invite={invite} />)

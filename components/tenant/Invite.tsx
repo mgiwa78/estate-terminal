@@ -38,7 +38,7 @@ const Invite = ({ invite }: PropType) => {
                 {invite.dateExpected
                   ? formateDate(invite.dateExpected)
                   : "-----"}
-                -{invite.validUntil ? formateDate(invite.validUntil) : "-----"}
+                {/* -{invite.validUntil ? formateDate(invite.validUntil) : "-----"} */}
               </Text>
             </View>
             <View style={styles.inviteDescription}>
