@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
     fontFamily: "ManropeBold",
     justifyContent: "center",
     gap: 6,
+    shadowOffset: {
+      width: 2,
+      height: -2,
+    },
     alignItems: "flex-start",
     borderRadius: 15,
     paddingVertical: 10,
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     width: "98%",
     elevation: 2,
     shadowColor: "#060a11",
-    shadowRadius: 20,
+    shadowRadius: 4,
     shadowOpacity: 1,
   },
   inviteBody: {

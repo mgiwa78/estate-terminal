@@ -45,10 +45,10 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                   return true;
                 }
                 if (filter === "cleared") {
-                  return !invite.status;
+                  return invite.status;
                 }
                 if (filter === "pending") {
-                  return invite.status;
+                  return !invite.status;
                 }
               }).length > 0 ? (
                 data
@@ -160,17 +160,16 @@ const styles = StyleSheet.create({
   },
   container: {
     textAlign: "left",
-    marginTop: 5,
     width: "100%",
     gap: 14,
-    paddingTop: 10,
+    paddingTop: 5,
   },
   body: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
     height: "100%",
-    gap: 24,
+    gap: 14,
     paddingTop: 2,
     paddingHorizontal: 2,
     marginBottom: 280,

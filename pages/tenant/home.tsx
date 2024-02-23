@@ -24,6 +24,7 @@ const TenantHomeScreen = () => {
         </View>
         <View style={styles.homeBody} darkColor="#000" lightColor="#f2f2f2">
           <TenantMenu />
+          <Text style={styles.title}> Invites </Text>
           <Invites limit={2} filter="all" />
         </View>
       </View>
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
 
     width: "100%",
     height: "100%",
-    gap: 20,
+
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: scaleFont(18),
     color: "#000",
-    fontWeight: "500",
+    fontFamily: "ManropeSemiBold",
+    marginTop: 20,
   },
   invitesTab: {
     justifyContent: "flex-start",
