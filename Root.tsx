@@ -22,6 +22,7 @@ import { BaseProps } from "./types/BaseProps";
 import TenantHomeScreen from "./pages/tenant/home";
 import TenantStackNavigator from "./pages/tenant/tenant-stack";
 import SecurityStackNavigator from "./pages/security/security-stack";
+import SecurityLoginScreen from "./pages/auth/security-login";
 
 export default function RootLayout() {
   const RootStack = createStackNavigator();
@@ -61,25 +62,29 @@ export default function RootLayout() {
         <RootStack.Navigator>
           {!user && (
             <RootStack.Screen
-              name="Login"
-              options={{ title: "Login", headerShown: false }}
+              name="TenantLoginScreen"
+              options={{ title: "TenantLoginScreen", headerShown: false }}
               component={LoginScreen}
             />
           )}
-          {/* {user && (
+          {user && (
             <RootStack.Screen
               name="TenantStackNavigator"
               options={{ title: "Tenant Home", headerShown: false }}
               component={TenantStackNavigator}
             />
-          )} */}
-          {user && (
-            <RootStack.Screen
-              name="SecurityStackNavigator"
-              options={{ title: "Security Home", headerShown: false }}
-              component={SecurityStackNavigator}
-            />
           )}
+          <RootStack.Screen
+            name="SecurityLoginScreen"
+            options={{ title: "Security Login", headerShown: false }}
+            component={SecurityLoginScreen}
+          />
+
+          <RootStack.Screen
+            name="SecurityStackNavigator"
+            options={{ title: "Security Home", headerShown: false }}
+            component={SecurityStackNavigator}
+          />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>

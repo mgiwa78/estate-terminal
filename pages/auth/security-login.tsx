@@ -16,7 +16,7 @@ import { scaleFont } from "../../utils/scaleFont";
 import { BaseProps } from "../../types/BaseProps";
 // import { loginSuccess } from "@/redux/slice/authSlice";
 
-const LoginScreen = ({ navigation }: BaseProps) => {
+const SecurityLoginScreen = ({ navigation }: BaseProps) => {
   const [email, setEmail] = useState("bigdaddy2030@gmail.com");
   const [password, setPassword] = useState("1234");
   const [houseNumber, setHousenumber] = useState("E76");
@@ -29,6 +29,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
   console.log("login user data: ", user);
 
   const dispatch = useAppDispatch();
+
   // const onCreateUserClick = async (e) => {
   //   try {
   //     setIsLoading(true); // Set loading to true when submitting
@@ -54,7 +55,6 @@ const LoginScreen = ({ navigation }: BaseProps) => {
     try {
       const RESPONSE = await tenantLogin({
         password: password,
-        housenumber: houseNumber,
         email: email,
       });
 
@@ -64,7 +64,6 @@ const LoginScreen = ({ navigation }: BaseProps) => {
         setIsLoading(false);
         dispatch(loginSuccess(RESPONSE.data));
         navigation.navigate("SecurityStackNavigator");
-        // navigation.navigate("TenantHomeScreen");
       } else {
         setIsLoading(false);
         setServerErr(RESPONSE?.message);
@@ -99,12 +98,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
           onChangeText={(text) => setEmail(text)}
           value={email}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="House number"
-          onChangeText={(text) => setHousenumber(text)}
-          value={houseNumber}
-        />
+
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -130,12 +124,9 @@ const LoginScreen = ({ navigation }: BaseProps) => {
           <Text
             style={[
               styles.btnText,
-              password && email && houseNumber && !isLoading
+              password && email && !isLoading
                 ? { color: "#FFF" }
                 : { color: "#CBD5E1" },
-              // (isLoading || !(password && email && houseNumber)) && {
-              //   color: "#CBD5E1"
-              // }
             ]}
           >
             Login
@@ -144,7 +135,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
         </TouchableOpacity>
 
         <Text
-          onPress={() => navigation.navigate("SecurityLoginScreen")}
+          onPress={() => navigation.navigate("TenantLoginScreen")}
           style={[
             styles.authLink,
             {
@@ -156,7 +147,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
             },
           ]}
         >
-          Security Post
+          Tenant Login
         </Text>
       </View>
     </>
@@ -220,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default SecurityLoginScreen;

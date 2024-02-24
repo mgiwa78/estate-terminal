@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     gap: 12,
+    paddingRight: 30,
   },
   menuIcon: {
     width: 9,

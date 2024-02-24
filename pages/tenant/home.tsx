@@ -1,17 +1,32 @@
 import { Text, View } from "@common/Themed";
 import React, { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import Invites from "../../components/tenant/Invites";
 import TenantMenu from "../../components/tenant/Menu";
-import { useAppSelector } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";
 import { useGetInvitesQuery } from "@toolkit/invitesApi";
 import { isLoaded, isLoading } from "expo-font";
 import { scaleFont } from "../../utils/scaleFont";
+import { useNavigation } from "@react-navigation/native";
+import { logout } from "@redux/slice/authSlice";
 
 const TenantHomeScreen = () => {
+  const navigation = useNavigation();
   const user = useAppSelector(selectUser);
 
+  const dispatch = useAppDispatch();
+
+  const handleSignout = () => {
+    navigation.navigate("TenantLoginScreen");
+    dispatch(logout());
+  };
   return (
     <>
       <View style={styles.container}>
@@ -21,6 +36,13 @@ const TenantHomeScreen = () => {
           <Text style={styles.userMenuName}>
             {user ? `Hi , ${user?.firstname}` : ""}
           </Text>
+
+          <Pressable style={styles.image} onPress={() => handleSignout()}>
+            <Image
+              style={{ width: 22, height: 22 }}
+              source={require("../../assets/images/box-arrow-right.png")}
+            />
+          </Pressable>
         </View>
         <View style={styles.homeBody} darkColor="#000" lightColor="#f2f2f2">
           <TenantMenu />
@@ -33,12 +55,18 @@ const TenantHomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  image: {
+    position: "absolute",
+    right: 24,
+    top: 37,
+  },
   container: {
     fontFamily: "ManropeSemiBold",
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#436BAB",
     paddingVertical: 60,
+    position: "relative",
     width: "100%",
   },
   scrollViewContent: {

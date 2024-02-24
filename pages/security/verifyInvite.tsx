@@ -2,6 +2,7 @@ import { Text, View, useThemeColor } from "@common/Themed";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Button,
   Platform,
   Pressable,
@@ -19,15 +20,35 @@ import { selectUser } from "@redux/selectors/auth";
 import { isLoading } from "expo-font";
 import { scaleFont } from "../../utils/scaleFont";
 import { BaseProps } from "../../types/BaseProps";
+import { verifyInvite } from "@services/verify-invite";
 
 const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
   const [inviteCode, setinviteCode] = useState<string>("");
-  const [isVerifying, setisVerifying] = useState<boolean>(false);
+  const [isVerifying, setIsVerifying] = useState<boolean>(false);
 
   const [date, setDate] = useState(new Date(1598051730000));
 
-  const confirmInvite = (code: any) => {};
+  const confirmInvite = async () => {
+    setIsVerifying(true);
+    Alert.alert("Invite Status", "The Invite code is valid");
+    setIsVerifying(false);
+    try {
+      const RESPONSE = await verifyInvite({
+        code: inviteCode,
+      });
 
+      console.log(RESPONSE);
+      setIsVerifying(false);
+      if (RESPONSE?.status === "1") {
+        Alert.alert("Invite Status", "The Invite code is valid");
+      } else {
+        Alert.alert("Invite Invalid", "Invalid invite code");
+      }
+    } catch (error: any) {
+      setIsVerifying(false);
+      console.log("error: ", error);
+    }
+  };
   return (
     <>
       <View style={styles.container} lightColor="#f2f2f2">
@@ -57,7 +78,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
           <Pressable
             style={[
               styles.btnSubmit,
-              inviteCode
+              inviteCode && !isVerifying
                 ? { backgroundColor: "#436BAB" }
                 : { backgroundColor: "#F1F5F9" },
             ]}
@@ -72,7 +93,9 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
             <Text
               style={[
                 styles.btnText,
-                inviteCode ? { color: "#FFF" } : { color: "#CBD5E1" },
+                inviteCode && !isVerifying
+                  ? { color: "#FFF" }
+                  : { color: "#CBD5E1" },
               ]}
             >
               Verify
