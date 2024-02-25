@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { tenantLogin } from "@services/auth";
+import { securityLogin } from "@services/auth";
 // import { selectUser } from "@/redux/selectors/auth";
 import { Text, View } from "@common/Themed";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
@@ -17,9 +17,8 @@ import { BaseProps } from "../../types/BaseProps";
 // import { loginSuccess } from "@/redux/slice/authSlice";
 
 const SecurityLoginScreen = ({ navigation }: BaseProps) => {
-  const [email, setEmail] = useState("bigdaddy2030@gmail.com");
-  const [password, setPassword] = useState("1234");
-  const [houseNumber, setHousenumber] = useState("E76");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [serverErr, setServerErr] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [valueState, setValueState] = useState(false);
@@ -53,17 +52,18 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
     setServerErr("");
 
     try {
-      const RESPONSE = await tenantLogin({
+      const RESPONSE = await securityLogin({
         password: password,
         email: email,
       });
 
       console.log(RESPONSE);
 
-      if (RESPONSE?.status === "1" && RESPONSE?.data.role == "user") {
+      if (RESPONSE?.status === "1" && RESPONSE?.data.role == "security") {
         setIsLoading(false);
         dispatch(loginSuccess(RESPONSE.data));
         navigation.navigate("SecurityStackNavigator");
+        //navigation.navigate("SecurityVerifyInviteScreen");
       } else {
         setIsLoading(false);
         setServerErr(RESPONSE?.message);
@@ -85,7 +85,7 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
           }}
         />
 
-        <Text style={styles.header}>Welcome</Text>
+        <Text style={styles.header}>Welcome, Security</Text>
         <Text
           style={{ color: "red", marginBottom: 10, fontFamily: "ManropeBold" }}
         >
@@ -111,7 +111,7 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
         <TouchableOpacity
           style={[
             styles.btn,
-            password && email && houseNumber && !isLoading
+            password && email && !isLoading
               ? { backgroundColor: "#436BAB" }
               : { backgroundColor: "#F1F5F9" },
             // (isLoading || !(password && email && houseNumber)) && {
@@ -119,7 +119,7 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
             // }
           ]}
           onPress={handleLogin}
-          disabled={!password || !email || !houseNumber}
+          disabled={!password || !email}
         >
           <Text
             style={[
