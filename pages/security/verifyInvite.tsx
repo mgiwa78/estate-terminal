@@ -21,6 +21,7 @@ import { isLoading } from "expo-font";
 import { scaleFont } from "../../utils/scaleFont";
 import { BaseProps } from "../../types/BaseProps";
 import { updateStatus, verifyInvite } from "@services/verify-invite";
+import User from "../../types/User";
 
 const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
   const [inviteCode, setinviteCode] = useState<string>("");
@@ -30,7 +31,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
   const [isRejectingStatus, setIsRejectingStatus] = useState<boolean>(false);
   const [response, setResponse] = useState<boolean>(false);
   const [guest, setGuest] = useState<string>("");
-  const [toSee, setToSee] = useState<string>("");
+  const [toSee, setToSee] = useState<User | null>();
   const [message, setMessage] = useState<string>("");
 
   const [date, setDate] = useState(new Date(1598051730000));
@@ -40,7 +41,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
     setResponse(false);
     setMessage("");
     setGuest("");
-    setToSee("");
+    setToSee(null);
   };
 
   const confirmInvite = async (code: string) => {
