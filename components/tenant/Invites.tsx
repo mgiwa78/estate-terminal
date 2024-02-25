@@ -23,37 +23,47 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
   const user = useSelector(selectUser);
 
   const { data, error, isLoading, isFetching, refetch } = useGetInvitesQuery(
-    user?._id || "0"
+    user?._id
   );
-  const [filtered, setFiltered] = useState();
 
+  const [filtered, setFiltered] = useState();
+  console.log(data);
   if (error) {
     console.log(error);
   }
   return (
     <>
       <View style={styles.container} lightColor="#f2f2f2">
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-          <View style={styles.body} lightColor="#f2f2f2">
-            {limit && (
-              <FlatList
-                contentContainerStyle={styles.scrollViewContent}
-                data={data?.slice(0, limit).sort((a, b) => {
-                  const dateA = new Date(a.created_at);
-                  const dateB = new Date(b.created_at);
-                  return dateA.getTime() - dateB.getTime();
-                })}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item }) => <Invite invite={item} />}
-                refreshControl={
-                  <RefreshControl refreshing={isFetching} onRefresh={refetch} />
-                }
-              />
-            )}
+        {limit && (
+          <FlatList
+            contentContainerStyle={styles.scrollViewContent}
+            data={data?.slice(0, limit).sort((a, b) => {
+              const dateA = new Date(a.created_at);
+              const dateB = new Date(b.created_at);
+              return dateA.getTime() - dateB.getTime();
+            })}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => <Invite invite={item} />}
+            onRefresh={refetch}
+            refreshing={isFetching}
+          />
+        )}
 
-            {!limit &&
-              data &&
-              (data?.filter((invite) => {
+        {!limit &&
+          data &&
+          (data?.filter((invite) => {
+            if (filter === "all") {
+              return true;
+            }
+            if (filter === "cleared") {
+              return invite.status;
+            }
+            if (filter === "pending") {
+              return !invite.status;
+            }
+          }).length > 0 ? (
+            <FlatList
+              data={data?.filter((invite) => {
                 if (filter === "all") {
                   return true;
                 }
@@ -63,45 +73,27 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
                 if (filter === "pending") {
                   return !invite.status;
                 }
-              }).length > 0 ? (
-                <FlatList
-                  data={data?.filter((invite) => {
-                    if (filter === "all") {
-                      return true;
-                    }
-                    if (filter === "cleared") {
-                      return invite.status;
-                    }
-                    if (filter === "pending") {
-                      return !invite.status;
-                    }
-                  })}
-                  keyExtractor={(item) => item._id}
-                  renderItem={({ item }) => <Invite invite={item} />}
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={isFetching}
-                      onRefresh={refetch}
-                    />
-                  }
-                />
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={{ fontFamily: "ManropeRegular", color: "#000" }}>
-                    No Invites
-                  </Text>
-                </View>
-              ))}
+              })}
+              keyExtractor={(item) => item._id}
+              renderItem={({ item }) => <Invite invite={item} />}
+              onRefresh={refetch}
+              refreshing={isFetching}
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontFamily: "ManropeRegular", color: "#000" }}>
+                No Invites
+              </Text>
+            </View>
+          ))}
 
-            {isLoading && <ActivityIndicator size={"large"} />}
-          </View>
-        </ScrollView>
+        {isLoading && <ActivityIndicator size={"large"} />}
       </View>
     </>
   );
@@ -126,6 +118,7 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 14,
     paddingTop: 5,
+    paddingBottom: 250,
   },
   body: {
     justifyContent: "flex-start",

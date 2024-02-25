@@ -26,9 +26,9 @@ const TenantHomeScreen = () => {
   const user = useAppSelector(selectUser);
 
   const dispatch = useAppDispatch();
-
+  console.log("user: ", user);
   const handleSignout = () => {
-    navigation.navigate("TenantLoginScreen", {});
+    // navigation.navigate("TenantLoginScreen", {});
     dispatch(logout());
   };
   return (
@@ -51,7 +51,7 @@ const TenantHomeScreen = () => {
         <View style={styles.homeBody} darkColor="#000" lightColor="#f2f2f2">
           <TenantMenu />
           <Text style={styles.title}> Invites </Text>
-          <Invites limit={2} filter="all" />
+          {user && <Invites limit={2} filter="all" />}
         </View>
       </View>
     </>

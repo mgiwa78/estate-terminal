@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import User from "../../types/User";
 
 type AuthState = {
-  role: "user" | null;
+  role: "user" | "security" | null;
   user?: User;
   isLoggedIn: boolean;
 };
+
 const initialState: AuthState = {
   role: null,
   user: undefined,

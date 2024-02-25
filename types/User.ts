@@ -14,7 +14,7 @@ type User = {
     home: string;
     mobile: string;
   };
-  role: string;
+  role: "security" | "users";
   updatedAt: string;
 };
 

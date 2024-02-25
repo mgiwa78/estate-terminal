@@ -17,7 +17,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./pages/auth/tenant-login";
 import TenantMenu from "./components/tenant/Menu";
 import { useAppSelector } from "@redux/hooks";
-import { selectUser } from "@redux/selectors/auth";
+import { selectRole, selectUser } from "@redux/selectors/auth";
 import { BaseProps } from "./types/BaseProps";
 import TenantHomeScreen from "./pages/tenant/home";
 import TenantStackNavigator from "./pages/tenant/tenant-stack";
@@ -27,16 +27,9 @@ import SecurityLoginScreen from "./pages/auth/security-login";
 export default function RootLayout() {
   const RootStack = createStackNavigator();
   const user = useAppSelector(selectUser);
+  const role = useAppSelector(selectRole);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (user) {
-  //       navigation.navigate("Login");
-  //     } else {
-  //       navigation.navigate("Tenant");
-  //     }
-  //   }, 2000);
-  // }, []);
+  console.log(role);
 
   const [loaded, error] = useFonts({
     ...Fonts,
@@ -57,36 +50,42 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <RootStack.Navigator>
-          {!user && (
+    <NavigationContainer>
+      <RootStack.Navigator>
+        {!user && (
+          <>
+            <RootStack.Screen
+              name="SecurityLoginScreen"
+              options={{ title: "Security Login", headerShown: false }}
+              component={SecurityLoginScreen}
+            />
+
             <RootStack.Screen
               name="TenantLoginScreen"
               options={{ title: "TenantLoginScreen", headerShown: false }}
               component={LoginScreen}
             />
-          )}
-          {user && (
-            <RootStack.Screen
-              name="TenantStackNavigator"
-              options={{ title: "Tenant Home", headerShown: false }}
-              component={TenantStackNavigator}
-            />
-          )}
-          <RootStack.Screen
-            name="SecurityLoginScreen"
-            options={{ title: "Security Login", headerShown: false }}
-            component={SecurityLoginScreen}
-          />
-
-          <RootStack.Screen
-            name="SecurityStackNavigator"
-            options={{ title: "Security Home", headerShown: false }}
-            component={SecurityStackNavigator}
-          />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </Provider>
+          </>
+        )}
+        {user && (
+          <>
+            {role === "security" && (
+              <RootStack.Screen
+                name="SecurityStackNavigator"
+                options={{ title: "Security Home", headerShown: false }}
+                component={SecurityStackNavigator}
+              />
+            )}
+            {role === "user" && (
+              <RootStack.Screen
+                name="TenantStackNavigator"
+                options={{ title: "Tenant Home", headerShown: false }}
+                component={TenantStackNavigator}
+              />
+            )}
+          </>
+        )}
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
 }

@@ -20,80 +20,216 @@ import { selectUser } from "@redux/selectors/auth";
 import { isLoading } from "expo-font";
 import { scaleFont } from "../../utils/scaleFont";
 import { BaseProps } from "../../types/BaseProps";
-import { verifyInvite } from "@services/verify-invite";
+import { updateStatus, verifyInvite } from "@services/verify-invite";
 
 const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
   const [inviteCode, setinviteCode] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
+  const [isResponse, setIsResponse] = useState<boolean>(false);
+  const [IsGrantingStatus, setIsGrantingStatus] = useState<boolean>(false);
+  const [isRejectingStatus, setIsRejectingStatus] = useState<boolean>(false);
+  const [response, setResponse] = useState<boolean>(false);
+  const [guest, setGuest] = useState<string>("");
+  const [toSee, setToSee] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const [date, setDate] = useState(new Date(1598051730000));
+
+  const reset = () => {
+    setIsResponse(false);
+    setResponse(false);
+    setMessage("");
+    setGuest("");
+    setToSee("");
+  };
 
   const confirmInvite = async (code: string) => {
     setIsVerifying(true);
     try {
-      const RESPONSE = await verifyInvite({
-        code: inviteCode,
-      });
-      if (RESPONSE?.data.success === true) {
-        Alert.alert("Invite Status", "The Invite code is valid");
+      const RESPONSE = await verifyInvite(code);
+      console.log(RESPONSE);
+
+      if (RESPONSE?.success === true) {
+        const { guest, creator, status } = RESPONSE.data;
+        setGuest(guest);
+        setToSee(creator);
+        setIsResponse(true);
+        setResponse(true);
+        setMessage(`Invite code is valid.`);
       } else {
-        Alert.alert("Invite Invalid", "Invalid invite code");
+        setIsResponse(true);
+        setResponse(false);
+        setMessage(`Invalid code.`);
       }
     } catch (error: any) {
-      //setIsVerifying(false);
       console.log("error: ", error);
-    }
-    finally{
+    } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handleUpdateStatus = async (code: string, status: string) => {
+    let res = "";
+
+    if (status === "grant") {
+      setIsGrantingStatus(true);
+    } else {
+      setIsRejectingStatus(true);
+    }
+    try {
+      const RESPONSE = await updateStatus(code, status);
+      console.log(RESPONSE);
+
+      if (status === "grant") {
+        res = "Invite access granted";
+      } else {
+        res = "Invite access rejected";
+      }
+      setIsGrantingStatus(false);
+      setIsRejectingStatus(false);
+      Alert.alert("Code status", res, [{ text: "OK", onPress: () => reset() }]);
+    } catch (error: any) {
+      console.log("error: ", error);
+    } finally {
+      setIsGrantingStatus(false);
     }
   };
   return (
     <>
       <View style={styles.container} lightColor="#f2f2f2">
-        <Header
-          textColor="#fff"
-          pageTitle="Verify Invite"
-          backTo="SecurityHomeScreen"
-        />
+        <Header textColor="#fff" pageTitle="Verify Invite" />
         <View style={styles.body} darkColor="#000" lightColor="#f2f2f2">
-          <View style={styles.top} lightColor="#f2f2f2">
-            <Text style={styles.inputLabel}>
-              Enter invite code and tap verify and Confirm code
-            </Text>
+          {!isResponse && (
+            <>
+              <View style={styles.top} lightColor="#f2f2f2">
+                <Text style={styles.inputLabel}>
+                  Enter invite code and tap verify and Confirm code
+                </Text>
 
-            <View style={styles.inputBox} lightColor="#f2f2f2">
-              <Text style={styles.inputLabel}>Invite Code</Text>
-              <TextInput
-                style={styles.input}
-                value={inviteCode}
-                onChangeText={setinviteCode}
-                placeholder="Enter invite code"
-              />
+                <View style={styles.inputBox} lightColor="#f2f2f2">
+                  <Text style={styles.inputLabel}>Invite Code</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={inviteCode}
+                    onChangeText={setinviteCode}
+                    placeholder="Enter invite code"
+                  />
+                </View>
+              </View>
+              <Pressable
+                style={[
+                  styles.btnSubmit,
+                  inviteCode && !isVerifying
+                    ? { backgroundColor: "#436BAB" }
+                    : { backgroundColor: "#F1F5F9" },
+                ]}
+                onPress={() => (inviteCode ? confirmInvite(inviteCode) : null)}
+              >
+                <Text
+                  style={[
+                    styles.btnText,
+                    inviteCode && !isVerifying
+                      ? { color: "#FFF" }
+                      : { color: "#CBD5E1" },
+                  ]}
+                >
+                  Verify
+                </Text>
+                {isVerifying && <ActivityIndicator />}
+              </Pressable>
+            </>
+          )}
+          {isResponse && (
+            <View style={styles.responseContainer}>
+              {response ? (
+                <View style={styles.responseMessage}>
+                  <Text style={styles.message}>{message}</Text>
+                  <View style={styles.responseItem}>
+                    <Text style={styles.responseKey}>Guest: </Text>
+                    <Text style={styles.responseValue}>{guest}</Text>
+                  </View>
+                  <View style={styles.responseItem}>
+                    <Text style={styles.responseKey}>To see: </Text>
+                    <Text style={styles.responseValue}>
+                      {toSee?.firstname + " " + toSee?.lastname}
+                    </Text>
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.responseMessage}>
+                  <Text style={styles.responseKey}>{message} </Text>
+                </View>
+              )}
+
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  gap: 20,
+                  backgroundColor: "transparent",
+                }}
+              >
+                {response ? (
+                  <>
+                    <Pressable
+                      style={[
+                        styles.btnSubmit,
+                        { maxWidth: 230, width: "40%" },
+                        !IsGrantingStatus
+                          ? { backgroundColor: "#436BAB" }
+                          : { backgroundColor: "#F1F5F9" },
+                      ]}
+                      onPress={() => handleUpdateStatus(inviteCode, "grant")}
+                    >
+                      <Text
+                        style={[
+                          styles.btnText,
+                          !IsGrantingStatus
+                            ? { color: "#FFF" }
+                            : { color: "#CBD5E1" },
+                        ]}
+                      >
+                        Allow
+                      </Text>
+                      {IsGrantingStatus && <ActivityIndicator />}
+                    </Pressable>
+                    <Pressable
+                      style={[
+                        styles.btnSubmit,
+                        { maxWidth: 230, width: "40%" },
+                        !isRejectingStatus
+                          ? { backgroundColor: "#f22320" }
+                          : { backgroundColor: "#f2a5a4" },
+                      ]}
+                      onPress={() => handleUpdateStatus(inviteCode, "reject")}
+                    >
+                      <Text
+                        style={[
+                          styles.btnText,
+                          !isRejectingStatus
+                            ? { color: "#FFF" }
+                            : { color: "#FFF" },
+                        ]}
+                      >
+                        Reject
+                      </Text>
+                      {isRejectingStatus && <ActivityIndicator />}
+                    </Pressable>
+                  </>
+                ) : (
+                  <>
+                    <Pressable style={styles.btnSubmit} onPress={() => reset()}>
+                      <Text style={[styles.btnText, { color: "#FFF" }]}>
+                        Ok
+                      </Text>
+                    </Pressable>
+                  </>
+                )}
+              </View>
             </View>
-          </View>
-          <View style={styles.bottom}></View>
-
-          <Pressable
-            style={[
-              styles.btnSubmit,
-              inviteCode && !isVerifying
-                ? { backgroundColor: "#436BAB" }
-                : { backgroundColor: "#F1F5F9" },
-            ]}
-            onPress={() => (inviteCode ? confirmInvite(inviteCode) : null)}
-          >
-            <Text
-              style={[
-                styles.btnText,
-                inviteCode && !isVerifying
-                  ? { color: "#FFF" }
-                  : { color: "#CBD5E1" },
-              ]}
-            >
-              Verify
-            </Text>
-            {isVerifying && <ActivityIndicator />}
-          </Pressable>
+          )}
         </View>
       </View>
     </>
@@ -103,11 +239,54 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
 const styles = StyleSheet.create({
   container: {
     fontFamily: "ManropeSemiBold",
-    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#436BAB",
     width: "100%",
+  },
+  responseContainer: {
+    gap: 20,
+    fontFamily: "ManropeSemiBold",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    width: "100%",
+    height: "50%",
+  },
+  responseMessage: {
+    fontFamily: "ManropeSemiBold",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    width: "100%",
+    maxWidth: 260,
+  },
+  responseText: {
+    fontFamily: "ManropeSemiBold",
+    fontSize: 17,
+  },
+  responseItem: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    width: "100%",
+  },
+  responseKey: {
+    fontFamily: "ManropeBold",
+    fontSize: 17,
+  },
+  responseValue: {
+    textAlign: "left",
+    fontFamily: "ManropeMedium",
+    fontSize: 17,
+  },
+  message: {
+    textAlign: "left",
+    fontFamily: "ManropeBold",
+    fontSize: 17,
+    marginBottom: 20,
   },
   body: {
     justifyContent: "space-between",
@@ -120,7 +299,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 130,
+    paddingBottom: 260,
   },
   inputBox: {
     width: "100%",
@@ -163,7 +342,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     gap: 20,
-    borderRadius: 15,
+    borderRadius: 10,
     backgroundColor: "#436BAB",
   },
   bottom: {

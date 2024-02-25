@@ -26,7 +26,7 @@ const CreateInvite = ({ navigation }: BaseProps) => {
   const [dateExpected, setDateExpected] = useState(new Date());
   const [timeExpected, setTimeExpected] = useState("");
 
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [validUntil, setValidUntil] = useState(new Date());
   const [showValidUntil, setValidUntilShow] = useState(false);
 
@@ -60,9 +60,14 @@ const CreateInvite = ({ navigation }: BaseProps) => {
   };
   const [createInvite, { isLoading: isCreating, isSuccess, error, data }] =
     useAddInviteMutation();
+
+  const handleCreate = (data: any) => {
+    console.log(data);
+    createInvite(data);
+  };
   if (isSuccess) {
     console.log(data);
-    navigation.navigate("TenantAllInviteScreen");
+    // navigation.navigate("TenantAllInviteScreen");
   }
   if (error) {
     console.log(error);
@@ -163,12 +168,12 @@ const CreateInvite = ({ navigation }: BaseProps) => {
             ]}
             onPress={() =>
               guestName && date && codeType && !isCreating
-                ? createInvite({
+                ? handleCreate({
                     id: user?._id || "0",
                     guest: guestName,
                     codeType,
                     ...(codeType === "recurring" && {
-                      validUntil: date.toLocaleDateString(),
+                      validUntil: validUntil.toLocaleDateString(),
                     }),
                     dateExpected: date.toLocaleDateString(),
                     timeExpected: date.toLocaleTimeString(),

@@ -6,36 +6,50 @@ import {
   ParamListBase,
   useNavigation,
 } from "@react-navigation/native";
+import { useAppDispatch } from "@redux/hooks";
+import { logout } from "@redux/slice/authSlice";
 
 type Props = {
   pageTitle: string;
   textColor: string;
-  backTo: any;
+  backTo?: any;
 };
 
 const Header = ({ pageTitle, backTo, textColor }: Props) => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
+  const dispatch = useAppDispatch();
 
+  const handleSignout = () => {
+    // navigation.navigate("TenantLoginScreen", {});
+    dispatch(logout());
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.headerBox}>
-        <Pressable
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingRight: 10,
-            paddingVertical: 0,
-          }}
-          onPress={() => navigation.navigate(backTo)}
-        >
-          <Image
-            style={styles.menuIcon}
-            source={require("../assets/images/Path.png")}
-          />
-        </Pressable>
+    <View style={styles.headerBox}>
+      <View style={styles.headerLeft}>
+        {backTo && (
+          <Pressable
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingRight: 19,
+            }}
+            onPress={() => navigation.navigate(backTo)}
+          >
+            <Image
+              style={styles.menuIcon}
+              source={require("../assets/images/Path.png")}
+            />
+          </Pressable>
+        )}
         <Text style={[styles.title, { color: textColor }]}> {pageTitle} </Text>
       </View>
+      <Pressable style={styles.image} onPress={() => handleSignout()}>
+        <Image
+          style={{ width: 22, height: 22 }}
+          source={require("../assets/images/box-arrow-right.png")}
+        />
+      </Pressable>
     </View>
   );
 };
@@ -47,25 +61,24 @@ const styles = StyleSheet.create({
     color: "#000",
     marginBottom: 5,
   },
-  container: {
+  image: { marginBottom: 10 },
+  headerLeft: {
     justifyContent: "flex-start",
-    alignItems: "flex-end",
-    backgroundColor: "#436BAB",
-    paddingBottom: 10,
+    gap: 10,
+    alignItems: "center",
     flexDirection: "row",
-    width: "100%",
-    height: 100,
-    paddingHorizontal: 18,
-    marginBottom: 10,
-    gap: 5,
   },
   headerBox: {
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: "space-between",
     flexDirection: "row",
     width: "100%",
     gap: 12,
     paddingRight: 30,
+    alignItems: "flex-end",
+    backgroundColor: "#436BAB",
+    height: 100,
+    paddingHorizontal: 18,
+    marginBottom: 10,
   },
   menuIcon: {
     width: 9,
