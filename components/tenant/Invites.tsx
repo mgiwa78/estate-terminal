@@ -23,7 +23,7 @@ const Invites = ({ filter = "all", limit }: PropInvite) => {
   const user = useSelector(selectUser);
 
   const { data, error, isLoading, isFetching, refetch } = useGetInvitesQuery(
-    user?._id
+    user?._id!
   );
 
   const [filtered, setFiltered] = useState();
