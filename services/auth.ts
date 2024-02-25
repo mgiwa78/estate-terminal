@@ -16,4 +16,18 @@ export const tenantLogin: any = async (userData: User) => {
     throw error;
   }
 };
+
+export const securityLogin: any = async (userData: User) => {
+  try {
+    const res = await axios.post(`${API_URL}users/security-login`, userData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return res.data;
+  } catch (error: any) {
+    console.error("Failed to log in:", error.message);
+    throw error;
+  }
+};
 //http://192.168.88.33:8000/api/v1/users/tenant-login

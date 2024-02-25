@@ -30,23 +30,21 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
 
   const confirmInvite = async (code: string) => {
     setIsVerifying(true);
-    Alert.alert("Invite Status", "The Invite code is valid");
-    setIsVerifying(false);
     try {
       const RESPONSE = await verifyInvite({
         code: inviteCode,
       });
-
-      console.log(RESPONSE);
-      setIsVerifying(false);
-      if (RESPONSE?.status === "1") {
+      if (RESPONSE?.data.success === true) {
         Alert.alert("Invite Status", "The Invite code is valid");
       } else {
         Alert.alert("Invite Invalid", "Invalid invite code");
       }
     } catch (error: any) {
-      setIsVerifying(false);
+      //setIsVerifying(false);
       console.log("error: ", error);
+    }
+    finally{
+      setIsVerifying(false);
     }
   };
   return (

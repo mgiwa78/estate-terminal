@@ -86,7 +86,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
           }}
         />
 
-        <Text style={styles.header}>Welcome</Text>
+        <Text style={styles.header}>Welcome, Resident</Text>
         <Text
           style={{ color: "red", marginBottom: 10, fontFamily: "ManropeBold" }}
         >
