@@ -14,7 +14,7 @@ import { store } from "./redux/store";
 import Fonts from "@constants/Fonts";
 import { useEffect } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import LoginScreen from "./pages/auth/login";
+import LoginScreen from "./pages/auth/tenant-login";
 import TenantMenu from "./components/tenant/Menu";
 import { useAppSelector } from "@redux/hooks";
 import { selectUser } from "@redux/selectors/auth";

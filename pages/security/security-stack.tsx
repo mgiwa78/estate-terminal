@@ -8,11 +8,11 @@ const SecurityStack = createStackNavigator();
 export default function SecurityStackNavigator() {
   return (
     <SecurityStack.Navigator>
-      <SecurityStack.Screen
+      {/* <SecurityStack.Screen
         name="SecurityHomeScreen"
         options={{ title: "Home", headerShown: false }}
         component={SecurityHome}
-      />
+      /> */}
       <SecurityStack.Screen
         name="SecurityVerifyInviteScreen"
         options={{ title: "Verify Invite", headerShown: false }}

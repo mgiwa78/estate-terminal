@@ -28,7 +28,7 @@ const TenantHomeScreen = () => {
   const dispatch = useAppDispatch();
 
   const handleSignout = () => {
-    navigation.navigate("TenantLoginScreen");
+    navigation.navigate("TenantLoginScreen", {});
     dispatch(logout());
   };
   return (

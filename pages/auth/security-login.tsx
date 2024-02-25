@@ -63,7 +63,6 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
         setIsLoading(false);
         dispatch(loginSuccess(RESPONSE.data));
         navigation.navigate("SecurityStackNavigator");
-        //navigation.navigate("SecurityVerifyInviteScreen");
       } else {
         setIsLoading(false);
         setServerErr(RESPONSE?.message);

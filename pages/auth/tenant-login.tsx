@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
       if (RESPONSE?.status === "1" && RESPONSE?.data.role == "user") {
         setIsLoading(false);
         dispatch(loginSuccess(RESPONSE.data));
-        navigation.navigate("SecurityStackNavigator");
+        navigation.navigate("TenantStackNavigator");
         // navigation.navigate("TenantHomeScreen");
       } else {
         setIsLoading(false);
