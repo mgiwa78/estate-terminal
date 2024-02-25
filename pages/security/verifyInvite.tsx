@@ -28,7 +28,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
 
   const [date, setDate] = useState(new Date(1598051730000));
 
-  const confirmInvite = async () => {
+  const confirmInvite = async (code: string) => {
     setIsVerifying(true);
     Alert.alert("Invite Status", "The Invite code is valid");
     setIsVerifying(false);
@@ -82,13 +82,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
                 ? { backgroundColor: "#436BAB" }
                 : { backgroundColor: "#F1F5F9" },
             ]}
-            onPress={() =>
-              inviteCode
-                ? confirmInvite({
-                    code: inviteCode,
-                  })
-                : null
-            }
+            onPress={() => (inviteCode ? confirmInvite(inviteCode) : null)}
           >
             <Text
               style={[

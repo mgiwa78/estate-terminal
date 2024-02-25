@@ -14,11 +14,15 @@ import { selectUser } from "@redux/selectors/auth";
 import { useGetInvitesQuery } from "@toolkit/invitesApi";
 import { isLoaded, isLoading } from "expo-font";
 import { scaleFont } from "../../utils/scaleFont";
-import { useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from "@react-navigation/native";
 import { logout } from "@redux/slice/authSlice";
 
 const TenantHomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
   const user = useAppSelector(selectUser);
 
   const dispatch = useAppDispatch();
