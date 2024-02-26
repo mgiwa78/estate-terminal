@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import {
   TextInput,
   StyleSheet,
-  Image,ScrollView,
+  Image,
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -75,8 +76,8 @@ const SecurityLoginScreen = ({ navigation }: BaseProps) => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.body}>
+      <View style={styles.container} lightColor="#fff">
+        <View style={styles.body} lightColor="#fff">
           <Image
             style={styles.image}
             source={{
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   body: {
     justifyContent: "center",
     alignItems: "center",
-
+    height: "100%",
     width: "100%",
   },
   header: {

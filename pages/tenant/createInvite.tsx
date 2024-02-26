@@ -8,7 +8,9 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
+  Alert,
 } from "react-native";
+import * as Clipboard from "expo-clipboard";
 import Invites from "../../components/tenant/Invites";
 import TenantMenu from "../../components/tenant/Menu";
 import Header from "../../components/Header";
@@ -67,6 +69,20 @@ const CreateInvite = ({ navigation }: BaseProps) => {
 
   if (isSuccess) {
     console.log(data);
+    Alert.alert("Invite Code", `Your new invite code is, ${data?.code}`, [
+      {
+        text: "Copy",
+        onPress: async () => {
+          if (data?.code) {
+            await Clipboard.setStringAsync(data?.code);
+          }
+        },
+      },
+      {
+        text: "Close",
+        style: "cancel",
+      },
+    ]);
     // navigation.navigate("TenantAllInviteScreen");
   }
   if (error) {
@@ -81,7 +97,7 @@ const CreateInvite = ({ navigation }: BaseProps) => {
           pageTitle="Create Invite"
           backTo="TenantHomeScreen"
         />
-        
+
         <View style={styles.body} darkColor="#000" lightColor="#f2f2f2">
           <View style={styles.top} lightColor="#f2f2f2">
             <Text style={styles.inputLabel}>
