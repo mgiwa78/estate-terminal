@@ -6,6 +6,7 @@ import {
   Button,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   TextInput,
 } from "react-native";
@@ -96,7 +97,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
     }
   };
   return (
-    <>
+    <ScrollView>
       <View style={styles.container} lightColor="#f2f2f2">
         <Header textColor="#fff" pageTitle="Verify Invite" />
         <View style={styles.body} darkColor="#000" lightColor="#f2f2f2">
@@ -233,7 +234,7 @@ const SecurityVerifyInviteScreen = ({ navigation }: BaseProps) => {
           )}
         </View>
       </View>
-    </>
+    </ScrollView>
   );
 };
 

@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   Button,
   Platform,
+  ScrollView,
   Pressable,
   StyleSheet,
   TextInput,
@@ -74,13 +75,14 @@ const CreateInvite = ({ navigation }: BaseProps) => {
   }
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.container} lightColor="#f2f2f2">
         <Header
           textColor="#fff"
           pageTitle="Create Invite"
           backTo="TenantHomeScreen"
         />
+        
         <View style={styles.body} darkColor="#000" lightColor="#f2f2f2">
           <View style={styles.top} lightColor="#f2f2f2">
             <Text style={styles.inputLabel}>
@@ -195,7 +197,7 @@ const CreateInvite = ({ navigation }: BaseProps) => {
           </Pressable>
         </View>
       </View>
-    </>
+    </ScrollView>
   );
 };
 
