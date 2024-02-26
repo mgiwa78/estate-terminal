@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   TextInput,
   StyleSheet,
-  Image,
+  Image,ScrollView,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.container}>
         <View style={styles.body}>
           <Image
@@ -160,7 +160,7 @@ const LoginScreen = ({ navigation }: BaseProps) => {
           Security Post
         </Text>
       </View>
-    </>
+    </ScrollView>
   );
 };
 
