@@ -23,8 +23,6 @@ import { BaseProps } from "../../types/BaseProps";
 const CreateInvite = ({ navigation }: BaseProps) => {
   const [codeType, setCodeType] = useState<"one-time" | "recurring" | "">(""); // Default invite type
   const [guestName, setGuestName] = useState("");
-  const [dateExpected, setDateExpected] = useState(new Date());
-  const [timeExpected, setTimeExpected] = useState("");
 
   const [date, setDate] = useState(new Date());
   const [validUntil, setValidUntil] = useState(new Date());
@@ -62,9 +60,10 @@ const CreateInvite = ({ navigation }: BaseProps) => {
     useAddInviteMutation();
 
   const handleCreate = (data: any) => {
-    console.log(data);
+    console.log("create data: ", data);
     createInvite(data);
   };
+
   if (isSuccess) {
     console.log(data);
     // navigation.navigate("TenantAllInviteScreen");
@@ -173,9 +172,9 @@ const CreateInvite = ({ navigation }: BaseProps) => {
                     guest: guestName,
                     codeType,
                     ...(codeType === "recurring" && {
-                      validUntil: validUntil.toLocaleDateString(),
+                      validUntil: validUntil,
                     }),
-                    dateExpected: date.toLocaleDateString(),
+                    dateExpected: date,
                     timeExpected: date.toLocaleTimeString(),
                   })
                 : null

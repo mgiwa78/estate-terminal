@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
     width: "98%",
     elevation: 2,
     shadowColor: "#060a11",
-    shadowRadius: 4,
-    shadowOpacity: 1,
+    shadowRadius: 2,
+    shadowOpacity: 0.15,
   },
   inviteBody: {
     justifyContent: "flex-start",
